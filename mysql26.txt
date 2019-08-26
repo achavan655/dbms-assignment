@@ -1,0 +1,135 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.1.38-community MySQL Community Server (GPL)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show database
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| fleeman            |
+| mydb               |
+| mysql              |
+| test               |
+| testdb             |
++--------------------+
+6 rows in set (0.08 sec)
+
+mysql> create database mydb;
+ERROR 1007 (HY000): Can't create database 'mydb'; database exists
+mysql> create database students;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use students;
+Database changed
+mysql> create table record;
+ERROR 1113 (42000): A table must have at least 1 column
+mysql> create table record (studid int, rollno int, name varchar(10), marks float);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into record values(1,101,vikas,99.99);
+ERROR 1054 (42S22): Unknown column 'vikas' in 'field list'
+mysql> insert into record values(1,101,'vikas',99.99);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select*from record;
++--------+--------+-------+-------+
+| studid | rollno | name  | marks |
++--------+--------+-------+-------+
+|      1 |    101 | vikas | 99.99 |
++--------+--------+-------+-------+
+1 row in set (0.00 sec)
+
+mysql> insert into record values(2,102,'abhijeet',95.99);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select*
+    -> from record;
++--------+--------+----------+-------+
+| studid | rollno | name     | marks |
++--------+--------+----------+-------+
+|      1 |    101 | vikas    | 99.99 |
+|      2 |    102 | abhijeet | 95.99 |
++--------+--------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> update record
+    -> set rollno=103
+    -> where record rollno=102;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rollno=102' at line 3
+mysql> where rollno=102;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where rollno=102' at line 1
+mysql> where studid=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where studid=2' at line 1
+mysql> update record set roll no=103 where studid =2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no=103 where studid =2' at line 1
+mysql> update record set roll no='103' where studid =2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no='103' where studid =2' at line 1
+mysql> update record set roll no=103 where studid =2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no=103 where studid =2' at line 1
+mysql> update record set rollno=103 where studid =2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from record;
++--------+--------+----------+-------+
+| studid | rollno | name     | marks |
++--------+--------+----------+-------+
+|      1 |    101 | vikas    | 99.99 |
+|      2 |    103 | abhijeet | 95.99 |
++--------+--------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> update record
+    -> set marks=97.3
+    -> where name='abhijeet';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from record;
++--------+--------+----------+-------+
+| studid | rollno | name     | marks |
++--------+--------+----------+-------+
+|      1 |    101 | vikas    | 99.99 |
+|      2 |    103 | abhijeet |  97.3 |
++--------+--------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delete from record
+    -> where marks=99.99;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select* from record;
++--------+--------+----------+-------+
+| studid | rollno | name     | marks |
++--------+--------+----------+-------+
+|      1 |    101 | vikas    | 99.99 |
+|      2 |    103 | abhijeet |  97.3 |
++--------+--------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delete from record
+    -> where studid=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select* from record;
++--------+--------+----------+-------+
+| studid | rollno | name     | marks |
++--------+--------+----------+-------+
+|      2 |    103 | abhijeet |  97.3 |
++--------+--------+----------+-------+
+1 row in set (0.00 sec)
+
+mysql> drop table record;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select* from record;
+ERROR 1146 (42S02): Table 'students.record' doesn't exist
+mysql>
